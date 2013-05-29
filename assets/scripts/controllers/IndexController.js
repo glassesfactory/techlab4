@@ -46,7 +46,6 @@
     };
 
     IndexController.prototype.load = function() {
-      console.log("url:::", TweetModel.url);
       return TweetModel.on(TECH.Event.COMPLETE, this.modelLoaded).on(TECH.IOErrorEvent.IO_ERROR, this.loadFaild).load();
     };
 

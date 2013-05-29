@@ -1,3 +1,7 @@
+###
+  Gyosen.models.BaseModel
+  の原型。
+###
 class BaseModel
   @url: ''
   #ロードした後のコールバック
@@ -74,9 +78,9 @@ class BaseModel
     for x in data
       @.collection.push new @(x)
     #コレクション内のモデルをユニークにするかどうか
-    # if @.isUnique
+    if @.isUnique
       #どこに書くかな
-      #@.collection = @_unique(@.collection)
+      @.collection = Gyosen.unique(@.collection)
     @.length = @.collection.length
     if @.loadCB?
       @.loadCB.apply()
@@ -190,13 +194,12 @@ class BaseModel
       obj["value"] = @[name]
       param.push(obj)
 
-
   #モデルを JSON にして返す
   toJSON:()=>
     return JSON.stringify(@toDict())
 
   #モデルを msgpack にして返す
   toMsgPack:()=>
-    if not msgpack and not window.msgpack
+    if not msgpack and "msgpack" not in window
       throw new Error('msgpack.js not found....')
     return msgpack.pack(@toDict())

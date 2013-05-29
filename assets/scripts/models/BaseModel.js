@@ -1,5 +1,11 @@
+/*
+  Gyosen.models.BaseModel
+  の原型。
+*/
+
 var BaseModel,
-  _this = this;
+  _this = this,
+  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 BaseModel = (function() {
 
@@ -86,6 +92,9 @@ BaseModel = (function() {
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       x = data[_i];
       BaseModel.collection.push(new BaseModel(x));
+    }
+    if (BaseModel.isUnique) {
+      BaseModel.collection = Gyosen.unique(BaseModel.collection);
     }
     BaseModel.length = BaseModel.collection.length;
     if (BaseModel.loadCB != null) {
@@ -264,7 +273,7 @@ BaseModel = (function() {
   };
 
   BaseModel.prototype.toMsgPack = function() {
-    if (!msgpack && !window.msgpack) {
+    if (!msgpack && __indexOf.call(window, "msgpack") < 0) {
       throw new Error('msgpack.js not found....');
     }
     return msgpack.pack(this.toDict());

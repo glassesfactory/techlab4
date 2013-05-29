@@ -14,7 +14,6 @@ do(TECH)->
       return TweetModel.isLoaded()
 
     load:()=>
-      console.log "url:::", TweetModel.url
       TweetModel.on(TECH.Event.COMPLETE, @modelLoaded).on(TECH.IOErrorEvent.IO_ERROR, @loadFaild).load()
 
     modelLoaded:(event)=>
